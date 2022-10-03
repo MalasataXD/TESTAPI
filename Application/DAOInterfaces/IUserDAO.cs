@@ -1,4 +1,5 @@
-﻿using Shared.Models;
+﻿using Shared.DTOs;
+using Shared.Models;
 
 namespace Application.DAOInterfaces;
 
@@ -6,4 +7,8 @@ public interface IUserDAO
 {
     Task<User> CreateAsync(User user);
     Task<User?> GetByUserNameAsync(string userName);
+    
+    Task<User?> GetByIdAsync(int id);
+
+    Task<IEnumerable<User>> GetAsync(SearchUserParametersDto searchUserParameters);
 }

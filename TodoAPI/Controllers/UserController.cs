@@ -1,4 +1,5 @@
-﻿using Application.LogicInterfaces;
+﻿using System.Net;
+using Application.LogicInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.DTOs;
 using Shared.Models;
@@ -33,4 +34,21 @@ public class UserController
             return new StatusCodeResult(StatusCodes.Status500InternalServerError);
         }
     }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<User>>> GetAsync([FromQuery] string? username)
+    {
+        try
+        {
+            SearchUserParametersDto parameters = new(username);
+            IEnumerable<User> users = await userLogic.GetAsync(parameters);
+            return new OkObjectResult(users);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+        }
+    }
+
 }
