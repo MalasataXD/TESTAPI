@@ -26,7 +26,7 @@ public class UserController
         try
         {
             User user = await userLogic.CreateAsync(dto);
-            return new StatusCodeResult(StatusCodes.Status201Created);
+            return new OkObjectResult(user);
         }
         catch (Exception e)
         {

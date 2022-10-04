@@ -48,4 +48,48 @@ public class TodosController : ControllerBase
         }
     }
     
+    [HttpPatch]
+    public async Task<ActionResult> UpdateAsync([FromBody] TodoUpdateDto dto)
+    {
+        try
+        {
+            await todoLogic.UpdateAsync(dto);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteAsync([FromRoute] int id)
+    {
+        try
+        {
+            await todoLogic.DeleteAsync(id);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<TodoBasicDto>> GetById([FromRoute] int id)
+    {
+        try
+        {
+            TodoBasicDto result = await todoLogic.GetByIdAsync(id);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
 }

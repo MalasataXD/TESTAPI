@@ -21,6 +21,7 @@ builder.Services.AddScoped<IUserLogic, UserLogic>();
 
 var app = builder.Build();
 
+    app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,5 +34,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.Run();
+    
+    
+app.Run(); 
+    
+    
