@@ -22,7 +22,7 @@ public class TodosController : ControllerBase
         try
         {
             Todo created = await todoLogic.CreateAsync(dto);
-            return Created($"/todos/{created.Id}", created);
+            return Created($"/controller/{created.Id}", created);
         }
         catch (Exception e)
         {

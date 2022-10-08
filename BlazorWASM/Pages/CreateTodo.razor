@@ -1,0 +1,96 @@
+﻿@page "/CreateTodo"
+@using global::Shared.Models
+@using global::Shared.DTOs
+@using HttpClients.ClientInterfaces
+@inject IUserService UserService;
+@inject ITodoService TodoService;
+@inject NavigationManager navMgr;
+<div class="card">
+    @if (users == null)
+    {
+        <label>Loading users...</label>
+    }
+    else if (!users.Any())
+    {
+        <label>No users, you cannot create a Todo without assignee.</label>
+    }
+    else
+    {
+        <h3>Create Todo</h3>
+        <div class="form-group field">
+            <label>Title:</label>
+            <input type="text" @bind="todoTitle"/>
+        </div>
+        <div class="form-group field">
+            <label>Assignee:</label>
+            <select @bind="selectedUserId">
+                <option>Choose</option>
+                @foreach (User user in users)
+                {
+                    <option value="@user.Id">@user.UserName</option>
+                }
+            </select>
+        </div>
+        <div class="button-row">
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <label style="color: @color">@msg</label>
+            }
+            <button @onclick="Create" class="acceptbtn">Create</button>
+        </div>
+    }
+</div>
+
+
+@code {
+    private IEnumerable<User>? users;
+    private int? selectedUserId;
+    private string todoTitle = "";
+    private string color;
+
+    private string msg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            users = await UserService.GetUsers();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private async Task Create()
+    {
+        msg = "";
+        if (selectedUserId == null)
+        {
+            color = "red";
+            msg = "You must select an assignee!";
+            return;
+        }
+        if (string.IsNullOrEmpty(todoTitle))
+        {
+            color = "red";
+            msg = "Title cannot be empty!";
+            return;
+        }
+
+        try
+        {
+            TodoCreationDto dto = new((int)selectedUserId, todoTitle);
+            await TodoService.CreateAsync(dto);
+            color = "green";
+            msg = "Todo succesfully created!";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+}

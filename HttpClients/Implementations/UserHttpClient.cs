@@ -28,8 +28,25 @@ public class UserHttpClient : IUserService
         }
 
         User user = JsonSerializer.Deserialize<User>(result,
-            new JsonSerializerOptions(){PropertyNameCaseInsensitive = true})!;
+            new JsonSerializerOptions{PropertyNameCaseInsensitive = true})!;
 
     return user;
+    }
+
+    public async Task<IEnumerable<User>> GetUsers()
+    {
+        string uri = "/user";
+        HttpResponseMessage response = await _client.GetAsync(uri);
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        IEnumerable<User> users = JsonSerializer.Deserialize<IEnumerable<User>>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        return users;
     }
 }
