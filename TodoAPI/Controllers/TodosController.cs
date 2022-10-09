@@ -69,7 +69,7 @@ public class TodosController : ControllerBase
         try
         {
             await todoLogic.DeleteAsync(id);
-            return Ok();
+            return StatusCode(200);
         }
         catch (Exception e)
         {

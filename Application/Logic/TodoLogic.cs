@@ -84,12 +84,6 @@ public class TodoLogic : ITodoLogic
         {
             throw new Exception($"Todo with ID {id} was not found!");
         }
-
-        if (!todo.IsCompleted)
-        {
-            throw new Exception("Cannot delete un-completed Todo!");
-        }
-
         await todoDao.DeleteAsync(id);
     }
     

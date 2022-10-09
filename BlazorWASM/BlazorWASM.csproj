@@ -19,4 +19,9 @@
       <Folder Include="wwwroot\icons" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\UIComponents\FancyCheckBox.razor" />
+      <_ContentIncludedByDefault Remove="Pages\UIComponents\FancyCheckBox1.razor" />
+    </ItemGroup>
+
 </Project>
