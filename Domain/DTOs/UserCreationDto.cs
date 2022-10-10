@@ -1,6 +1,6 @@
-﻿using Shared.Models;
+﻿using Domain.Models;
 
-namespace Shared.DTOs;
+namespace Domain.DTOs;
 
 public class UserCreationDto
 {

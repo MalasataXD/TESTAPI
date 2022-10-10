@@ -1,7 +1,7 @@
 ﻿using System.Resources;
 using Application.DAOInterfaces;
-using Shared.DTOs;
-using Shared.Models;
+using Domain.DTOs;
+using Domain.Models;
 
 namespace FileData.DAOs;
 

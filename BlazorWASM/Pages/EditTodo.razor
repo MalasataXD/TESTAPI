@@ -1,7 +1,8 @@
 ﻿@page "/EditTodo/{id:int}"
-@using global::Shared.DTOs
-@using global::Shared.Models
 @using HttpClients.ClientInterfaces
+@using Microsoft.AspNetCore.Components
+@using Domain.Models
+@using Domain.DTOs
 @inject IUserService UserService
 @inject ITodoService TodoService
 @inject NavigationManager navMgr

@@ -1,11 +1,16 @@
+using System.Text;
 using FileData;
 using FileData.DAOs;
 using Application.DAOInterfaces;
 using Application.Logic;
 using Application.LogicInterfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Shared.Auth;
+using Shared.Services;
 
 
-    var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -18,7 +23,21 @@ builder.Services.AddScoped<IUserDAO, UserFileDao>();
 builder.Services.AddScoped<IUserLogic, UserLogic>(); 
     builder.Services.AddScoped<ITodoDao, TodoFileDao>(); 
     builder.Services.AddScoped<ITodoLogic, TodoLogic>();
-
+builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+AuthorizationPolicies.AddPolicies(builder.Services);
 var app = builder.Build();
 
     app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());
@@ -30,7 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
