@@ -8,10 +8,10 @@ namespace Application.Logic;
 public class UserLogic :IUserLogic
 {
     // # Fields
-    private readonly IUserDAO userDao;
+    private readonly IUserDao userDao;
     
     // # Constructor
-    public UserLogic(IUserDAO userDao)
+    public UserLogic(IUserDao userDao)
     {
         this.userDao = userDao;
     }

@@ -1,9 +1,12 @@
-﻿namespace Domain.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Domain.Models;
 
 public class User
 {
     // # Fields
     public int Id { get; set; }
     public string UserName { get; set; }
-    public List<Todo> Todos { get; set; }
+    [JsonIgnore]
+    public ICollection<Todo> Todos { get; set; }
 }

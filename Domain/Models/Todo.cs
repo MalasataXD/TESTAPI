@@ -4,8 +4,8 @@ public class Todo
 {
     // # Fields
     public int Id { get; set; }
-    public User Owner { get; set; }
-    public string Title { get; set; }
+    public User Owner { get; private set; }
+    public string Title { get; private set; }
     public bool IsCompleted { get; set; }
     
     // # Constructor
@@ -14,4 +14,7 @@ public class Todo
         Owner = owner;
         Title = title;
     }
+
+    private Todo(){}
+
 }

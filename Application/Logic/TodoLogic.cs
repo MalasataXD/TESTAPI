@@ -9,10 +9,10 @@ public class TodoLogic : ITodoLogic
 {
     // # Fields
     private readonly ITodoDao todoDao;
-    private readonly IUserDAO userDao;
+    private readonly IUserDao userDao;
     
     // # Constructor
-    public TodoLogic(ITodoDao todoDao, IUserDAO userDao)
+    public TodoLogic(ITodoDao todoDao, IUserDao userDao)
     {
         this.todoDao = todoDao;
         this.userDao = userDao;
